@@ -17,11 +17,15 @@ import uuid
 import time
 
 from urllib import request
+from subprocess import Popen
 
 
 class RPC():
-    def __init__(self, host, port):
-        self._server_url = f"http://{host}:{port}/jsonrpc"
+    def __init__(self, host, port, path):
+        self._server = None
+        self._host = host
+        self._port = port
+        self._server_url = f"http://{self._host}:{self._port}/jsonrpc"
         self._headers = {
             "User-Agent": "dbt.vim",
             "Content-Type": "application/json",

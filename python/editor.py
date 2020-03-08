@@ -23,15 +23,27 @@ class Editor():
     def __init__(self):
         self._window = None
         self._buffer = None
-        self._rpc = None
+        self._server = None
 
-    def rpc(self):
-        if self._rpc is None:
-            host = "0.0.0.0"
-            port = "8580"
-            self._rpc = RPC(host, port)
+    def _var(self, var, default=None):
+        exists = int(vim.eval(f'exists("{var}")'))
 
-        return self._rpc
+        if not exists:
+            return default
+
+        return vim.eval(f"{var}")
+
+    def _init_rpc(self):
+        host = self._var("g:dbt_host", "127.0.0.1")
+        port = self._var("g:dbt_port", "8580")
+
+        self._server = RPC(host, port)
+
+    def _rpc(self):
+        if self._server is None:
+            self._init_rpc()
+
+        return self._server
 
     def preview(self, content):
         if self._window is None or not self._window.valid:
@@ -51,6 +63,6 @@ class Editor():
         sql = base64.b64encode(content).decode("utf-8")
         name = os.path.basename(buffer.name)
 
-        compiled = self.rpc().compile_sql(sql, name)
+        compiled = self._rpc().compile_sql(sql, name)
 
         self.preview(compiled)
