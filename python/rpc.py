@@ -17,6 +17,7 @@ import uuid
 import time
 
 from urllib import request
+from urllib.error import URLError
 from subprocess import Popen
 
 
@@ -46,34 +47,47 @@ class RPC():
 
         return str.encode(payload)
 
-    def _request(self, method, params):
+    def _request(self, method, params={}):
         req = request.Request(
             url=self._server_url,
             method='POST',
             headers=self._headers,
             data=self._payload(method, params),)
 
-        response = request.urlopen(req).read().decode("utf-8")
+        try:
+            response = request.urlopen(req)
+        except (ConnectionRefusedError, URLError):
+            return {"state": "error"}
 
-        return json.loads(response).get("result")
+        parsed = response.read().decode("utf-8")
+        return json.loads(parsed).get("result")
 
     def _poll(self, request_token):
-        completed = False
-
-        while not completed:
+        while True:
             result = self._request("poll", {
                 "request_token": request_token,
                 "logs": False
             })
 
-            completed = result["state"] != "running"
-            if not completed:
-                time.sleep(1)
+            if result["state"] != "running":
+                return result
 
-        return result
+            time.sleep(1)
+
+    def _server_running(self):
+        if self._request("status").get("state") != "error":
+            return True
+
+        if self._server is None:
+            return False
+
+        if self._server.poll() is None:
+            return False
+
+        return True
 
     def start_server(self):
-        if self._server:
+        if self._server_running():
             return
 
         self._server = Popen(self._path + [
@@ -84,12 +98,19 @@ class RPC():
             self._port
         ])
 
+        while self._request("status").get("state") != "ready":
+            time.sleep(1)
+
     def stop_server(self):
-        if self._server:
-            self._server.kill()
-            self._server = None
+        if not self._server_running():
+            return
+
+        self._server.kill()
+        self._server = None
 
     def compile_sql(self, sql, name):
+        self.start_server()
+
         response = self._request("compile_sql", {"sql": sql, "name": name})
         result = self._poll(response.get('request_token'))
 
