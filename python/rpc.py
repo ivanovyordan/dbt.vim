@@ -25,12 +25,16 @@ class RPC():
         self._server = None
         self._host = host
         self._port = port
+        self._path = path.split(" ")
         self._server_url = f"http://{self._host}:{self._port}/jsonrpc"
         self._headers = {
             "User-Agent": "dbt.vim",
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
+
+    def __del__(self):
+        self.stop_server()
 
     def _payload(self, method, params):
         payload = json.dumps({
@@ -67,6 +71,23 @@ class RPC():
                 time.sleep(1)
 
         return result
+
+    def start_server(self):
+        if self._server:
+            return
+
+        self._server = Popen(self._path + [
+            "rpc",
+            "--host",
+            self._host,
+            "--port",
+            self._port
+        ])
+
+    def stop_server(self):
+        if self._server:
+            self._server.kill()
+            self._server = None
 
     def compile_sql(self, sql, name):
         response = self._request("compile_sql", {"sql": sql, "name": name})

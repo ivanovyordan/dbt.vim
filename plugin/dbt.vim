@@ -32,6 +32,16 @@ sys.path.insert(0, python_root_dir)
 import dbt
 EOF
 
+function! DbtStartServer()
+  py3 dbt.start_server()
+endfunction
+command -nargs=0 DbtStartServer call DbtStartServer()
+
+function! DbtStopServer()
+  py3 dbt.stop_server()
+endfunction
+command -nargs=0 DbtStopServer call DbtStopServer()
+
 function! DbtCompileBuffer()
   py3 dbt.compile_buffer()
 endfunction
