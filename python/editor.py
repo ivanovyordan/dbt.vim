@@ -36,8 +36,9 @@ class Editor():
     def _init_rpc(self):
         host = self._var("g:dbt_host", "127.0.0.1")
         port = self._var("g:dbt_port", "8580")
+        path = self._var("g:dbt_path", "dbt")
 
-        self._server = RPC(host, port)
+        self._server = RPC(host, port, path)
 
     def _rpc(self):
         if self._server is None:
@@ -56,6 +57,12 @@ class Editor():
         self._buffer[:] = None
         self._buffer.append(content.split("\n"))
         self._buffer.options["modifiable"] = False
+
+    def start_server(self):
+        self._rpc().start_server()
+
+    def stop_server(self):
+        self._rpc().stop_server()
 
     def compile_buffer(self):
         buffer = vim.current.buffer

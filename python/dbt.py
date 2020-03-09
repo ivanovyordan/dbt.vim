@@ -17,5 +17,13 @@ from editor import Editor
 editor = Editor()
 
 
+def start_server():
+    editor.start_server()
+
+
+def stop_server():
+    editor.stop_server()
+
+
 def compile_buffer():
     editor.compile_buffer()
