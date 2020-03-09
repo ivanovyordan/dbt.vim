@@ -46,12 +46,20 @@ class Editor():
 
         return self._server
 
+    def _create_pvreview(self):
+        vim.command("vnew")
+        self._window = vim.windows[-1]
+        self._window.options["previewwindow"] = True
+
+        self._buffer = self._window.buffer
+        self._buffer.options["filetype"] = "sql"
+        self._buffer.options["buftype"] = "nofile"
+        self._buffer.options["buflisted"] = False
+        self._buffer.options["swapfile"] = False
+
     def preview(self, content):
         if self._window is None or not self._window.valid:
-            vim.command("vnew")
-            self._window = vim.windows[-1]
-            self._buffer = self._window.buffer
-            self._buffer.options["ft"] = "sql"
+            self._create_pvreview()
 
         self._buffer.options["modifiable"] = True
         self._buffer[:] = None
