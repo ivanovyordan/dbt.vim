@@ -82,6 +82,5 @@ class Editor():
 
         print("Compiling...")
         compiled = self._rpc().compile_sql(sql, name)
-        print("")
 
         self.preview(compiled)
