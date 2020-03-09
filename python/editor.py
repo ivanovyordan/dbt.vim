@@ -68,9 +68,11 @@ class Editor():
 
     def start_server(self):
         self._rpc().start_server()
+        print("dbt RPC server started")
 
     def stop_server(self):
         self._rpc().stop_server()
+        print("dbt RPC server stopped")
 
     def compile_buffer(self):
         buffer = vim.current.buffer
@@ -78,6 +80,8 @@ class Editor():
         sql = base64.b64encode(content).decode("utf-8")
         name = os.path.basename(buffer.name)
 
+        print("Compiling...")
         compiled = self._rpc().compile_sql(sql, name)
+        print("")
 
         self.preview(compiled)
