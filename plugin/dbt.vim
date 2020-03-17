@@ -21,30 +21,49 @@ if exists('g:dbt_loaded')
   finish
 endif
 
-let s:plugin_root_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-:py3 << EOF
-import sys
-from os.path import normpath, join
-import vim
-plugin_root_dir = vim.eval('s:plugin_root_dir')
-python_root_dir = normpath(join(plugin_root_dir, '..', 'python'))
-sys.path.insert(0, python_root_dir)
-import dbt
-EOF
-
-function! DbtStartServer()
-  py3 dbt.start_server()
+function DbtStartServer()
+  call dbt#start_server()
 endfunction
 command -nargs=0 DbtStartServer call DbtStartServer()
 
-function! DbtStopServer()
-  py3 dbt.stop_server()
-endfunction
-command -nargs=0 DbtStopServer call DbtStopServer()
-
-function! DbtCompileBuffer()
-  py3 dbt.compile_buffer()
+function DbtCompileBuffer()
+  call dbt#compile_buffer()
 endfunction
 command -nargs=0 DbtCompileBuffer call DbtCompileBuffer()
+
+function! s:init_python()
+  let s:plugin_root_dir = expand('<sfile>:p:h')
+
+  py3 << EOF
+import sys
+from os.path import normpath, join
+import vim
+
+plugin_root_dir = vim.eval('s:plugin_root_dir')
+python_root_dir = normpath(join(plugin_root_dir, 'python'))
+
+vim.command("let g:dbt_python_path = '%s'" % sys.executable)
+vim.command("let g:dbt_python_code = '%s'" % python_root_dir)
+EOF
+endfunction
+
+function! s:init()
+  if filereadable("dbt_project.yml") == 0
+    return
+  endif
+
+  let g:dbt_path = get(g:, "dbt_path", "dbt")
+  let g:dbt_server_host = get(g:, "dbt_server_host", "0.0.0.0")
+  let g:dbt_server_port = get(g:, "dbt_server_port", "8580")
+  let g:dbt_server_autostart = get(g:, "dbt_server_autostart", 0)
+
+  call s:init_python()
+
+  if g:dbt_server_autostart
+    call dbt#start_server()
+  endif
+endfunction
+
+call s:init()
 
 let g:dbt_loaded = 1
