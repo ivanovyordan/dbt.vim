@@ -64,13 +64,13 @@ class RPC():
 
     def _poll(self, request_token):
         while True:
-            result = self._request("poll", {
+            poll = self._request("poll", {
                 "request_token": request_token,
                 "logs": False
             })
 
-            if result["state"] != "running":
-                return result
+            if poll["state"] != "running":
+                return poll["results"][0]
 
             time.sleep(1)
 
@@ -114,4 +114,4 @@ class RPC():
         response = self._request("compile_sql", {"sql": sql, "name": name})
         result = self._poll(response.get('request_token'))
 
-        return result["results"][0]["compiled_sql"]
+        return result["compiled_sql"]
