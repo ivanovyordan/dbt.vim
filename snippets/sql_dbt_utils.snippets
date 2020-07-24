@@ -1,0 +1,54 @@
+snippet timestamp "curent_timestamp"
+    {{ dbt_utils.current_timestamp() }}
+snippet dateadd "dateadd"
+    {{ dbt_utils.dateadd('${1:datepart}', '${2:interval}', '${3:from_date_or_timestamp}') }}
+snippet datediff "datediff"
+    {{ dbt_utils.datediff('${1:first_date}', '${2:second_date}', '${3:datepart}') }}
+snippet datetrunc "date_trunc"
+    {{ dbt_utils.date_trunc('${1:datepart}', '${2:date}') }}
+snippet lastday "last_day"
+    {{ dbt_utils.last_day('${1:date}', '${2:datepart}') }}
+snippet datespine "date_spine"
+    {{ dbt_utils.date_spine('${1:datepart}', '${2:start_date}', '${3:end_date}') }}
+snippet datespine "with_bucket"
+    {{ dbt_utils.width_bucket('${1:expr}', ${2:min_value}, ${3:max_value}, ${4:num_buckets}) }}
+snippet split "split_part"
+    {{ dbt_utils.split_part('${1:string_tex}', '${2:delimiter_text}', ${3:part_number}) }}
+snippet bucket "with_bucket"
+    {{ dbt_utils.width_bucket(${1:expr}, ${2:min_value}, ${3:max_value}, ${4:num_buckets}) }}
+snippet distance "haversine_distance"
+    {{ dbt_utils.haversine_distance('${1:lat1}', '${2:lon1}', '${3:lat2}', '${4:lon2}') }}
+snippet dict "get_query_results_as_dict"
+    {{ dbt_utils.get_query_results_as_dict("${1:query}") }}
+snippet values "get_column_values"
+    {{ dbt_utils.get_column_values('${1:table}', '${2:column}'${3:, max_records=$4}${5:, default=[$6]}) }}
+snippet relations_by_prefix "get_relations_by_prefix"
+    {{ dbt_utils.get_relations_by_prefix('${1:schema}', '${2:prefix}'${3:, exclude='$4'}${5:, database=${6:target.database}}) }}
+snippet group "group_by"
+    {{ dbt_utils.group_by(${1:n}) }}
+snippet star "star"
+    {{ dbt_utils.star(${1:from}${2:, relation_alias=${3|False,True|}}${4:, except=[$5]}) }}
+snippet union "union_relations"
+    {{ dbt_utils.union_relations(${1:relations}${2:, column_override=${3:none}}${4:, include=[$5]}${6:, exclude=[$7]}${8:, source_column_name='$9'}) }}
+snippet series "generate_series"
+    {{ dbt_utils.generate_series(${1:upper_bound}) }}
+snippet key "surrogate_key"
+    {{ dbt_utils.surrogate_key([${1:field_list}]) }}
+snippet add "safe_add"
+    {{ dbt_utils.safe_add(${1:fields}) }}
+snippet pivot "pivot"
+    {{ dbt_utils.pivot(${1:column}, ${2:values}${3:, alias=${4|True,False|}}${4:, agg='${5:sum}'}${6:, cmp='${7:=}'}${8:, prefix='$9'}${10:, suffix='$11'}${12:, then_value=${13:1}}${14:, else_value=${15:0}}${16:, quote_identifiers=${17:|True,False|}}) }}
+snippet unpivot "unpivot"
+    {{ dbt_utils.unpivot(${1:relation}${2:, cast_to='${3:varchar}'}${4:, exclude=[$5]}${6:, remove=[$7]}${9:, field_name='$8'}${11:, value_name='$10'}${13:, table=${12:none}}) }}
+snippet get_url_parameter "get_url_parameter"
+    {{ dbt_utils.get_url_parameter(${1:field}, ${2:url_parameter}) }}
+snippet get_url_host "get_url_host"
+    {{ dbt_utils.get_url_host(${1:field}) }}
+snippet get_url_path "get_url_path"
+    {{ dbt_utils.get_url_path(${1:field}) }}
+snippet pretty_time "pretty_time"
+    {{ dbt_utils.pretty_time(${2:format='$1'}) }}
+snippet pretty_log_format "pretty_log_format"
+    {{ dbt_utils.pretty_log_format(${1:message}) }}
+snippet log_info "log_info"
+    {{ dbt_utils.log_info(${1:message}) }}
