@@ -1,107 +1,107 @@
-snippet timestamp "curent_timestamp" b
+snippet timestamp "curent_timestamp"
 {{ dbt_utils.current_timestamp() }}
 endsnippet
 
-snippet dateadd "dateadd" b
+snippet dateadd "dateadd"
 {{ dbt_utils.dateadd('${1:datepart}', '${2:interval}', '${3:from_date_or_timestamp}') }}
 endsnippet
 
-snippet datediff "datediff" b
+snippet datediff "datediff"
 {{ dbt_utils.datediff('${1:first_date}', '${2:second_date}', '${3:datepart}') }}
 endsnippet
 
-snippet datetrunc "date_trunc" b
+snippet datetrunc "date_trunc"
 {{ dbt_utils.date_trunc('${1:datepart}', '${2:date}') }}
 endsnippet
 
-snippet lastday "last_day" b
+snippet lastday "last_day"
 {{ dbt_utils.last_day('${1:date}', '${2:datepart}') }}
 endsnippet
 
-snippet datespine "date_spine" b
+snippet datespine "date_spine"
 {{ dbt_utils.date_spine('${1:datepart}', '${2:start_date}', '${3:end_date}') }}
 endsnippet
 
-snippet datespine "with_bucket" b
+snippet datespine "with_bucket"
 {{ dbt_utils.width_bucket('${1:expr}', ${2:min_value}, ${3:max_value}, ${4:num_buckets}) }}
 endsnippet
 
-snippet split "split_part" b
+snippet split "split_part"
 {{ dbt_utils.split_part('${1:string_tex}', '${2:delimiter_text}', ${3:part_number}) }}
 endsnippet
 
-snippet bucket "with_bucket" b
+snippet bucket "with_bucket"
 {{ dbt_utils.width_bucket(${1:expr}, ${2:min_value}, ${3:max_value}, ${4:num_buckets}) }}
 endsnippet
 
-snippet distance "haversine_distance" b
+snippet distance "haversine_distance"
 {{ dbt_utils.haversine_distance('${1:lat1}', '${2:lon1}', '${3:lat2}', '${4:lon2}') }}
 endsnippet
 
-snippet dict "get_query_results_as_dict" b
+snippet dict "get_query_results_as_dict"
 {{ dbt_utils.get_query_results_as_dict("${1:query}") }}
 endsnippet
 
-snippet values "get_column_values" b
+snippet values "get_column_values"
 {{ dbt_utils.get_column_values('${1:table}', '${2:column}'${3:, max_records=$4}${5:, default=[$6]}) }}
 endsnippet
 
-snippet relations_by_prefix "get_relations_by_prefix" b
+snippet relations_by_prefix "get_relations_by_prefix"
 {{ dbt_utils.get_relations_by_prefix('${1:schema}', '${2:prefix}'${3:, exclude='$4'}${5:, database=${6:target.database}}) }}
 endsnippet
 
-snippet group "group_by" b
+snippet group "group_by"
 {{ dbt_utils.group_by(${1:n}) }}
 endsnippet
 
-snippet star "star" b
+snippet star "star"
 {{ dbt_utils.star(${1:from}${2:, relation_alias=${3|False,True|}}${4:, except=[$5]}) }}
 endsnippet
 
-snippet union "union_relations" b
+snippet union "union_relations"
 {{ dbt_utils.union_relations(${1:relations}${2:, column_override=${3:none}}${4:, include=[$5]}${6:, exclude=[$7]}${8:, source_column_name='$9'}) }}
 endsnippet
 
-snippet series "generate_series" b
+snippet series "generate_series"
 {{ dbt_utils.generate_series(${1:upper_bound}) }}
 endsnippet
 
-snippet key "surrogate_key" b
+snippet key "surrogate_key"
 {{ dbt_utils.surrogate_key([${1:field_list}]) }}
 endsnippet
 
-snippet add "safe_add" b
+snippet add "safe_add"
 {{ dbt_utils.safe_add(${1:fields}) }}
 endsnippet
 
-snippet pivot "pivot" b
+snippet pivot "pivot"
 {{ dbt_utils.pivot(${1:column}, ${2:values}${3:, alias=${4|True,False|}}${4:, agg='${5:sum}'}${6:, cmp='${7:=}'}${8:, prefix='$9'}${10:, suffix='$11'}${12:, then_value=${13:1}}${14:, else_value=${15:0}}${16:, quote_identifiers=${17:|True,False|}}) }}
 endsnippet
 
-snippet unpivot "unpivot" b
+snippet unpivot "unpivot"
 {{ dbt_utils.unpivot(${1:relation}${2:, cast_to='${3:varchar}'}${4:, exclude=[$5]}${6:, remove=[$7]}${9:, field_name='$8'}${11:, value_name='$10'}${13:, table=${12:none}}) }}
 endsnippet
 
-snippet get_url_parameter "get_url_parameter" b
+snippet get_url_parameter "get_url_parameter"
 {{ dbt_utils.get_url_parameter(${1:field}, ${2:url_parameter}) }}
 endsnippet
 
-snippet get_url_host "get_url_host" b
+snippet get_url_host "get_url_host"
 {{ dbt_utils.get_url_host(${1:field}) }}
 endsnippet
 
-snippet get_url_path "get_url_path" b
+snippet get_url_path "get_url_path"
 {{ dbt_utils.get_url_path(${1:field}) }}
 endsnippet
 
-snippet pretty_time "pretty_time" b
+snippet pretty_time "pretty_time"
 {{ dbt_utils.pretty_time(${2:format='$1'}) }}
 endsnippet
 
-snippet pretty_log_format "pretty_log_format" b
+snippet pretty_log_format "pretty_log_format"
 {{ dbt_utils.pretty_log_format(${1:message}) }}
 endsnippet
 
-snippet log_info "log_info" b
+snippet log_info "log_info"
 {{ dbt_utils.log_info(${1:message}) }}
 endsnippet

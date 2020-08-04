@@ -1,24 +1,24 @@
-snippet ref "ref" b
+snippet ref "ref"
     {{ ref('$1'}) }}
-snippet ref "source" b
+snippet source "source"
     {{ source('${1:source}', '${2:table}') }}
-snippet config "config block" b
+snippet config "config block"
     {{ config(
     	${1:key}='${2:value}',$3
     ) }}
 
     $4
-snippet get "config get" b
+snippet get "config get"
     {%- set ${1:var} = config.get('${2:config}') -%}
-snippet require "config require" b
+snippet require "config require"
     {%- set ${1:var} = config.require('${2:config}') -%}
-snippet log "log" b
+snippet log "log"
     {%- do log(${1:var}${2:, info=${3|True,False|}}) -%}
-snippet debug "debug" b
+snippet debug "debug"
     {{ debug() }}
-snippet raise "raise_compiler_error" b
+snippet raise "raise_compiler_error"
     {%- exceptions.raise_compiler_error('${1:message}') -%}
-snippet warn "warn" b
+snippet warn "warn"
     {%- do exceptions.warn('${1:message}') -%}
-snippet run "run_query" b
+snippet run "run_query"
     {% set ${1:result} = run_query(${2:query}) %}

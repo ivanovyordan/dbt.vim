@@ -1,63 +1,63 @@
 # Use Jinja2 snippets if exists
 extends jinja2
 
-snippet % "inline block" b
+snippet % "inline block"
     {% $1 %}
-snippet iblock "inline block" b
+snippet iblock "inline block"
     {% $1 %}
-snippet %% "block" b
+snippet %% "block"
     {%- block ${1:tag} -%}
     	$2
     {%- endblock $1 -%}
-snippet block "block" b
+snippet block "block"
     {%- block ${1:tag} -%}
     	$2
     {%- endblock $1 -%}
-snippet set "set" b
+snippet set "set"
     {%- set ${1:name} = ${2:'value'} -%}
-snippet set "set block" b
+snippet set "set block"
     {%- set ${1:name} -%}
     	$2
     {%- endset -%}
-snippet { "var" b
+snippet { "var"
     {{ $1 }}
-snippet var "var" b
+snippet var "var"
     {{ $1 }}
-snippet # "comment" b
+snippet # "comment"
     {#- $1 -#}
-snippet comment "comment" b
+snippet comment "comment"
     {#- $1 -#}
-snippet do "do" b
+snippet do "do"
     {%- do $1 -%}
-snippet filter "filter" b
+snippet filter "filter"
     {%- filter ${1:filter} -%}
     	$2
     {%- endfilter -%}
-snippet for "for" b
+snippet for "for"
     {%- for ${1:item} in ${2:sequence} -%}
     	$3
     {%- endfor -%}
-snippet for "for dict" b
+snippet for "for dict"
     {%- for ${1:key}, ${2:value} in ${3:dict}.items() -%}
     	$4
     {%- endfor -%}
-snippet for "for/else" b
+snippet for "for/else"
     {%- for ${1:item} in ${2:sequence} -%}
     	$3
     {%- else -%}
     	$4
     {%- endfor -%}
-snippet if "if" b
+snippet if "if"
     {%- if ${1:expr} -%}
     	$2
     {%- endif -%}
-snippet if "if/else" b
+snippet if "if/else"
     {%- if ${1:expr} -%}
     	$2
     {%- else -%}
     	$3
     {%- endif -%}
-snippet if "if/elif/else" b
+snippet if "if/elif/else"
     {%- if ${1:expr} -%}
     	$2
     {%- elif $3 -%}
@@ -65,7 +65,7 @@ snippet if "if/elif/else" b
     {%- else -%}
     	$5
     {%- endif -%}
-snippet macro "macro" b
+snippet macro "macro"
     {%- macro ${1:name}(${2}) -%}
     	$3
     {%- endmacro -%}
