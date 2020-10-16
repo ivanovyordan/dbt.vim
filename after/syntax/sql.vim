@@ -12,18 +12,26 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 
-let s:dbt_default_jina_path = globpath(&rtp, "syntax/jinja.vim")
-let g:dbt_jinja_path = get(g:, "dbt_jinja_path", s:dbt_default_jina_path)
 let g:dbt_highlight_jinja = get(g:, "dbt_highlight_jinja", 1)
-
 if empty(g:dbt_highlight_jinja)
   finish
 endif
 
-if !filereadable(g:dbt_jinja_path)
+let s:jinja_path_config = get(g:, "dbt_jinja_path")
+let s:jinja_path_plugin = globpath(&rtp, "syntax/jinja.vim")
+let s:jinja2_path_plugin = globpath(&rtp, "syntax/jinja2.vim")
+
+if filereadable(s:jinja_path_config)
+  let g:dbt_jinja_path = s:jinja_path_plugin
+elseif file_readable(s:jinja_path_plugin)
+  let g:dbt_jinja_path = s:jinja_path_plugin
+elseif filereadable(s:jinja2_path_plugin)
+  let g:dbt_jinja_path = s:jinja2_path_plugin
+else
   echoerr "Jinja syntax not found. Please, consider installing one."
   finish
 endif
 
+echo g:dbt_jinja_path
 execute "syntax include @jinja " . g:dbt_jinja_path
 syntax region jinjaTemplate start=/{{|{%|{%-|{#/ end=/}}|%}|-}|#}/ contains=@jinja
